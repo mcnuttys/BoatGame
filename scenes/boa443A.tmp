@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnsra0lc63vua"]
+
+[ext_resource type="Script" path="res://scripts/boat_test.gd" id="1_4cvl7"]
+[ext_resource type="Script" path="res://scripts/camera_look.gd" id="2_8rswe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dgj3i"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c1o5h"]
+size = Vector3(1, 0.5, 2)
+
+[node name="boat_test" type="RigidBody3D"]
+script = ExtResource("1_4cvl7")
+float_force = 1.4
+max_turn_rate = 1.0
+
+[node name="boat_collider" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_dgj3i")
+
+[node name="boat_mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_c1o5h")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 2, 5)
+top_level = true
+script = ExtResource("2_8rswe")
+
+[node name="BuoyancyProbes" type="Node3D" parent="."]
+
+[node name="Probe" type="Marker3D" parent="BuoyancyProbes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.25, 1)
+
+[node name="Label3D" type="Label3D" parent="BuoyancyProbes/Probe"]
+billboard = 1
+text = "TEST"
+
+[node name="Probe2" type="Marker3D" parent="BuoyancyProbes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.25, -1)
+
+[node name="Label3D" type="Label3D" parent="BuoyancyProbes/Probe2"]
+billboard = 1
+text = "TEST"
+
+[node name="Probe4" type="Marker3D" parent="BuoyancyProbes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.25, 1)
+
+[node name="Label3D" type="Label3D" parent="BuoyancyProbes/Probe4"]
+billboard = 1
+text = "TEST"
+
+[node name="Probe5" type="Marker3D" parent="BuoyancyProbes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.25, -1)
+
+[node name="Label3D" type="Label3D" parent="BuoyancyProbes/Probe5"]
+billboard = 1
+text = "TEST"

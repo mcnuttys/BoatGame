@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://c22vf1xn2x3cy"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_qb87c"]
+[ext_resource type="PackedScene" uid="uid://c2wnqfdj2fqk4" path="res://scenes/explosion_effect.tscn" id="2_fd8pw"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7y723"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eukdp"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2a784"]
+material = SubResource("StandardMaterial3D_eukdp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wspsj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mb4ra"]
+albedo_color = Color(0.376471, 0.376471, 0.376471, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gvxq2"]
+material = SubResource("StandardMaterial3D_mb4ra")
+radius = 0.02
+height = 0.04
+
+[sub_resource type="Curve" id="Curve_0f8jk"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Bullet" type="RigidBody3D"]
+collision_layer = 0
+collision_mask = 3
+max_contacts_reported = 4
+contact_monitor = true
+script = ExtResource("1_qb87c")
+explosionEffect = ExtResource("2_fd8pw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-2.18557e-09, 0.05, 0, -0.05, -2.18557e-09, 0, 0, 0, 0.05, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_7y723")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-2.18557e-09, 0.05, 0, -0.05, -2.18557e-09, 0, 0, 0, 0.05, 0, 0, 0)
+layers = 524288
+mesh = SubResource("CapsuleMesh_2a784")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_wspsj")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+amount = 16
+randomness = 1.0
+mesh = SubResource("SphereMesh_gvxq2")
+emission_shape = 1
+emission_sphere_radius = 0.1
+gravity = Vector3(0, 1, 0)
+initial_velocity_max = 0.1
+scale_amount_curve = SubResource("Curve_0f8jk")
+color = Color(1, 1, 0, 1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

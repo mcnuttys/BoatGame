@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dox8x8bktc0yx"
-path.s3tc="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.s3tc.ctex"
-path.etc2="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.etc2.ctex"
+uid="uid://b0lmf0kkcegdo"
+path.s3tc="res://.godot/imported/rect.png-884bc93403b8a1a9572a9bcd642074fa.s3tc.ctex"
+path.etc2="res://.godot/imported/rect.png-884bc93403b8a1a9572a9bcd642074fa.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://icon.svg"
-dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.s3tc.ctex", "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.etc2.ctex"]
+source_file="res://textures/rect.png"
+dest_files=["res://.godot/imported/rect.png-884bc93403b8a1a9572a9bcd642074fa.s3tc.ctex", "res://.godot/imported/rect.png-884bc93403b8a1a9572a9bcd642074fa.etc2.ctex"]
 
 [params]
 
@@ -34,6 +34,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=0
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

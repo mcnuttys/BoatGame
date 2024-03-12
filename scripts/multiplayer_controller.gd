@@ -12,8 +12,7 @@ func _ready():
 	multiplayer.connection_failed.connect(connection_failed)
 	
 	$username_field.text = "Player " + str(randi_range(1, 1000))
-	
-	$ColorPicker.color = Color.CORNFLOWER_BLUE
+	$ColorPicker.color = Color(randf(), randf(), randf())
 	
 	var ip_address = "Im lazy and decided not to find it"
 	if OS.has_feature("windows"):

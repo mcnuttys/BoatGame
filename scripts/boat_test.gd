@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+@export var health := 100.0
+
 @export var float_force := 1.0
 @export var water_drag := 0.05
 @export var water_angular_drag := 0.05
@@ -20,6 +22,8 @@ extends RigidBody3D
 @export var min_gun_lift := 5.0
 @export var max_gun_lift := -45.0
 @export var gun_power = 8
+
+@export var dead_boat : PackedScene
 
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var water = get_node("/root/water_test/Water")
@@ -71,6 +75,8 @@ var current_angle := 0.0
 var current_lift := 0.0
 
 var authority_id = -1
+var username = ""
+var color = Color.WHITE
 
 func _ready():
 	authority_id = str(name).to_int()
@@ -83,6 +89,7 @@ func _ready():
 		remove_child($Control)
 	else:
 		camera.current = true
+		$ShipDisplay.visible = false
 
 func rotate_gun(gun, target_angle, deltaTime):
 	var currentAngle = gun.rotation.y 
@@ -133,6 +140,8 @@ func shoot():
 	shoot_guns.rpc(authority_id)
 
 func _process(delta):
+	$ShipDisplay.set_health_value(health)
+	
 	if authority_id != multiplayer.get_unique_id():
 		return
 		
@@ -153,6 +162,10 @@ func _process(delta):
 		
 	#if Input.is_action_just_pressed("jump"):
 	#	shoot_guns.rpc(authority_id)
+	
+	if health <= 0:
+		spawn_death_effect.rpc(global_position, global_basis, color)
+		$/root/Game.player_died(authority_id)
 
 func _physics_process(delta):
 	if authority_id != multiplayer.get_unique_id():
@@ -197,15 +210,29 @@ func _integrate_forces(state):
 		state.angular_velocity *= 1 - water_angular_drag
 
 func set_player_data(username, color):
+	self.username = username
+	self.color = color
+	
 	$UsernameLabel.text = username
+	$ShipDisplay.set_username("[center]" + username)
 	
 	var newMat = StandardMaterial3D.new()
 	newMat.albedo_color = color
 	
 	$boat_split/boat_front.set_surface_override_material(0, newMat)
 	$boat_split/boat_back.set_surface_override_material(0, newMat)
-	pass
 
 @rpc("any_peer", "call_local")
-func take_damage(sender, position, power):	
-	apply_force((global_position - position).normalized() * power, position - global_position)
+func take_damage(sender, position, power):
+	var dist = clampf(1.0 - (position.distance_to(global_position) / 5.0), 0, 1)
+	health -= 10.0 * dist
+
+@rpc("any_peer", "call_local")
+func spawn_death_effect(position, basis, color):
+	print("NEW DEAD BOAT")
+	var new_dead_boat = dead_boat.instantiate()
+	get_tree().root.add_child(new_dead_boat)
+	
+	new_dead_boat.global_position = position
+	new_dead_boat.global_basis = basis
+	new_dead_boat.set_ship_color(color)

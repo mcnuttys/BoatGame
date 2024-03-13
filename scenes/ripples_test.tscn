@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://cu2uchf4tyink"]
+[gd_scene load_steps=23 format=3 uid="uid://cu2uchf4tyink"]
 
 [ext_resource type="Script" path="res://scripts/ripples_test.gd" id="1_8j0cr"]
 [ext_resource type="Shader" path="res://scripts/water_simulation.gdshader" id="1_i1ufp"]
 [ext_resource type="Shader" uid="uid://ly17ksihtdxt" path="res://scripts/ripples_test.tres" id="2_pf3cr"]
 [ext_resource type="Shader" uid="uid://bio45diah7hff" path="res://scripts/water_simulation_buffer.tres" id="3_sjgb7"]
+[ext_resource type="PackedScene" uid="uid://d3px8lo7s1j8q" path="res://scenes/dead_ship.tscn" id="5_dn531"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e1c7q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -168,3 +169,6 @@ libraries = {
 }
 autoplay = "bounce"
 speed_scale = 0.5
+
+[node name="DeadShip" parent="." instance=ExtResource("5_dn531")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6.075)

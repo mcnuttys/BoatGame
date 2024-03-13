@@ -22,8 +22,8 @@ func _process(delta):
 		get_tree().root.remove_child(self)
 
 func delete_colliders():
-		remove_child($Area3D)
-		remove_child($Water_Collision)
+		$Area3D.queue_free()
+		$Water_Collision.queue_free()
 		deletedArea2d = true
 	
 
@@ -31,7 +31,16 @@ func _on_area_3d_body_entered(body):
 	if body is StaticBody3D or body is CSGBox3D:
 		return
 	
+	if body is RigidBody3D:
+		body.apply_force((body.global_position - global_position).normalized() * 30, global_position - body.global_position)
+	
+	if "authority_id" not in body:
+		return
+	
 	if multiplayer and multiplayer.is_server():
+		if body.authority_id == ownerID:
+			return
+			
 		body.take_damage.rpc_id(body.authority_id, ownerID, global_position, 30)
 	
 	delete_colliders()

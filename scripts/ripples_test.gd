@@ -33,6 +33,7 @@ func _process(delta):
 	pass
 	
 func setSimulationSettings():
+	print('Setting Settings')
 	sim_viewport.size.x = simulationSize
 	sim_viewport.size.y = simulationSize
 	sim_viewport_buffer.size.x = simulationSize

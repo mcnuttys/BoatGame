@@ -1,15 +1,11 @@
-[gd_scene load_steps=54 format=3 uid="uid://dnsra0lc63vua"]
+[gd_scene load_steps=48 format=3 uid="uid://dnsra0lc63vua"]
 
 [ext_resource type="Script" path="res://scripts/boat_test.gd" id="1_4cvl7"]
 [ext_resource type="Script" path="res://scripts/camera_look.gd" id="2_8rswe"]
 [ext_resource type="PackedScene" uid="uid://c22vf1xn2x3cy" path="res://scenes/bullet.tscn" id="2_ll3if"]
 [ext_resource type="PackedScene" uid="uid://b78fsdhclgnst" path="res://scenes/shoot_effect.tscn" id="3_x5b14"]
-[ext_resource type="PackedScene" uid="uid://d3px8lo7s1j8q" path="res://scenes/dead_ship.tscn" id="4_m4yan"]
 [ext_resource type="Script" path="res://scripts/Boat_UI_Controls.gd" id="5_6a2r3"]
-[ext_resource type="Texture2D" uid="uid://b0lmf0kkcegdo" path="res://textures/rect.png" id="5_751pm"]
-[ext_resource type="Script" path="res://scripts/ShipDisplay.gd" id="5_ruafp"]
 [ext_resource type="Texture2D" uid="uid://x16p8ro6wt4h" path="res://textures/wheel.png" id="6_8sxbn"]
-[ext_resource type="Script" path="res://scripts/Healthbar.gd" id="6_m7bdf"]
 [ext_resource type="Texture2D" uid="uid://bv0mn5gjla74k" path="res://textures/slider_background.png" id="7_5j07l"]
 [ext_resource type="Texture2D" uid="uid://bxqwvoiurkxv0" path="res://textures/slider.png" id="8_skovu"]
 [ext_resource type="Texture2D" uid="uid://cf3xngojk4rsb" path="res://textures/radar_background.png" id="9_lqn8u"]
@@ -391,12 +387,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_a7046")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_sfv7o"]
-viewport_path = NodePath("ShipDisplay/SubViewport")
-
-[sub_resource type="Gradient" id="Gradient_hbuke"]
-colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1)
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vkmad"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
@@ -428,21 +418,14 @@ properties/8/replication_mode = 1
 properties/9/path = NodePath("boat_split/back_gun_2/barrel:rotation")
 properties/9/spawn = true
 properties/9/replication_mode = 1
-properties/10/path = NodePath(".:health")
-properties/10/spawn = true
-properties/10/replication_mode = 1
 
 [node name="boat_test" type="RigidBody3D"]
-mass = 25.0
 contact_monitor = true
 script = ExtResource("1_4cvl7")
-float_force = 100.0
+float_force = 4.0
 max_turn_rate = 1.0
-forward_speed = 250
-backward_speed = 20
 bullet = ExtResource("2_ll3if")
 shoot_effect = ExtResource("3_x5b14")
-dead_boat = ExtResource("4_m4yan")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
@@ -635,54 +618,10 @@ billboard = 1
 no_depth_test = true
 text = "TEST"
 
-[node name="ShipDisplay" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-billboard = 1
-texture = SubResource("ViewportTexture_sfv7o")
-script = ExtResource("5_ruafp")
-
-[node name="SubViewport" type="SubViewport" parent="ShipDisplay"]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(512, 100)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ShipDisplay/SubViewport"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -34.0
-offset_right = 100.0
-offset_bottom = 34.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="RichUsernameLabel" type="RichTextLabel" parent="ShipDisplay/SubViewport/VBoxContainer"]
-custom_minimum_size = Vector2(200, 32)
-layout_mode = 2
-bbcode_enabled = true
-text = "[center]USERNAME"
-scroll_active = false
-
-[node name="Healthbar" type="TextureProgressBar" parent="ShipDisplay/SubViewport/VBoxContainer"]
-custom_minimum_size = Vector2(200, 20)
-layout_mode = 2
-value = 100.0
-nine_patch_stretch = true
-texture_under = ExtResource("5_751pm")
-texture_progress = ExtResource("5_751pm")
-tint_under = Color(0.698039, 0.698039, 0.698039, 1)
-tint_progress = Color(0, 1, 0, 1)
-script = ExtResource("6_m7bdf")
-gradient = SubResource("Gradient_hbuke")
-
 [node name="UsernameLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-visible = false
 billboard = 1
-text = "Mcnuttys"
+text = "USERNAME"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_vkmad")

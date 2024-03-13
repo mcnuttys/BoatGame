@@ -15,16 +15,17 @@ func shoot(dir, _ownerID):
 func explode():
 	var explosion = explosionEffect.instantiate()
 	explosion.set_ownerID(ownerID)
-	get_tree().root.add_child(explosion)
 	
 	explosion.global_position = global_position
+	
+	get_tree().root.add_child(explosion)
 	age = max_age
 	
 func _process(delta):
 	age += delta
 	
 	if age >= max_age:
-		queue_free()
+		get_tree().root.remove_child(self)
 	
 	if global_position.y <= -0.1:
 		explode()
@@ -36,7 +37,7 @@ func _on_body_entered(body):
 	if body is StaticBody3D or body is CSGBox3D:
 		return
 	
-	if "authority_id" in body and body.authority_id == ownerID:
+	if body.authority_id == ownerID:
 		return
 	
 	explode()

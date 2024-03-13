@@ -60,8 +60,10 @@ func calculate_radar_angle(event):
 
 	var angle = dir.angle() + PI/2
 	
-	if angle > PI:
+	if angle > PI * 2:
 		angle -= PI * 2
+	if angle < -PI * 2:
+		angle += PI * 2
 	
 	$RadarAngle/AimAngle.rotation = angle 
 	

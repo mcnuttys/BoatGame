@@ -1,0 +1,146 @@
+[gd_scene load_steps=17 format=3 uid="uid://cru1jw0pff5am"]
+
+[ext_resource type="PackedScene" uid="uid://brmxc0g2oha12" path="res://prefabs/default_ship.tscn" id="1_8ynix"]
+[ext_resource type="Script" path="res://scripts/player_ship.gd" id="1_j14f2"]
+[ext_resource type="PackedScene" uid="uid://bukixm1og7a3c" path="res://prefabs/bullet.tscn" id="2_t2rm5"]
+[ext_resource type="PackedScene" uid="uid://8utpoqhoje8l" path="res://prefabs/shoot_effect.tscn" id="3_0fywp"]
+[ext_resource type="PackedScene" uid="uid://60pcmc271qir" path="res://prefabs/ui/player_ui.tscn" id="3_sud6k"]
+[ext_resource type="Texture2D" uid="uid://c444vgv3r2yww" path="res://textures/rect.png" id="5_olh4l"]
+[ext_resource type="Script" path="res://scripts/ui/health_bar.gd" id="7_awcvl"]
+[ext_resource type="AudioStream" uid="uid://bfgxnlf5nbeau" path="res://audio/hit2.ogg" id="8_aodhy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwc15"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xck0h"]
+viewport_path = NodePath("player_details_viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aab8v"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.25
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_xck0h")
+texture_repeat = false
+billboard_mode = 1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_14gj4"]
+viewport_path = NodePath("player_details_viewport")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nsvcr"]
+properties/0/path = NodePath("default_ship:position")
+properties/0/spawn = false
+properties/0/replication_mode = 1
+properties/1/path = NodePath("default_ship:rotation")
+properties/1/spawn = false
+properties/1/replication_mode = 1
+properties/2/path = NodePath("default_ship:target_angle")
+properties/2/spawn = false
+properties/2/replication_mode = 2
+properties/3/path = NodePath("default_ship:target_lift_angle")
+properties/3/spawn = false
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:authority_id")
+properties/4/spawn = true
+properties/4/replication_mode = 0
+properties/5/path = NodePath("default_ship:current_forward_speed")
+properties/5/spawn = false
+properties/5/replication_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_4x5sf"]
+colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vx1xt"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Environment" id="Environment_f6p5h"]
+
+[node name="player_ship" type="Node3D"]
+script = ExtResource("1_j14f2")
+shell_prefab = ExtResource("2_t2rm5")
+shoot_effect_prefab = ExtResource("3_0fywp")
+
+[node name="default_ship" parent="." instance=ExtResource("1_8ynix")]
+physics_material_override = SubResource("PhysicsMaterial_rwc15")
+
+[node name="player_details" type="Sprite3D" parent="default_ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+material_override = SubResource("StandardMaterial3D_aab8v")
+cast_shadow = 0
+billboard = 1
+texture = SubResource("ViewportTexture_14gj4")
+
+[node name="player_camera_pivot" type="Node3D" parent="."]
+top_level = true
+
+[node name="player_camera" type="Camera3D" parent="player_camera_pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5)
+top_level = true
+cull_mask = 1048571
+
+[node name="player_ui" parent="." instance=ExtResource("3_sud6k")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nsvcr")
+
+[node name="player_details_viewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(256, 45)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_details_viewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="username_label" type="RichTextLabel" parent="player_details_viewport/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]{username}"
+fit_content = true
+
+[node name="health_bar" type="TextureProgressBar" parent="player_details_viewport/VBoxContainer"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_olh4l")
+texture_progress = ExtResource("5_olh4l")
+tint_under = Color(0.392157, 0.392157, 0.392157, 1)
+tint_progress = Color(0, 1, 0, 1)
+script = ExtResource("7_awcvl")
+health_gradient = SubResource("Gradient_4x5sf")
+
+[node name="health_bar_value" type="Label" parent="player_details_viewport/VBoxContainer/health_bar"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_vx1xt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="radar_viewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="radar_camera" type="Camera3D" parent="radar_viewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+cull_mask = 4
+environment = SubResource("Environment_f6p5h")
+projection = 1
+size = 75.0
+far = 20.0
+
+[node name="hit_sound_effect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_aodhy")
+volume_db = -10.0

@@ -1,0 +1,258 @@
+[gd_scene load_steps=10 format=3 uid="uid://bsj1qqrf1hbel"]
+
+[ext_resource type="Script" path="res://scripts/ui/kill_feed_ui.gd" id="1_4n6c7"]
+[ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_gvl8y"]
+[ext_resource type="Texture2D" uid="uid://krulr5se05um" path="res://textures/o_high.png" id="2_uhpp6"]
+[ext_resource type="Texture2D" uid="uid://b3k6ngytifbta" path="res://textures/burger.png" id="3_ib4yo"]
+[ext_resource type="Texture2D" uid="uid://d3ehyryqyfnxu" path="res://textures/star.png" id="4_8lfor"]
+[ext_resource type="Script" path="res://scripts/ui/leaderboard_ui.gd" id="5_305lx"]
+[ext_resource type="Texture2D" uid="uid://8oywsbkp41oc" path="res://textures/x.png" id="7_20eo6"]
+
+[sub_resource type="Curve" id="Curve_1sm11"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_bf5ha"]
+font_size = 24
+
+[node name="game_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_gvl8y")
+
+[node name="kill_feed_ui" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -261.0
+offset_top = -169.0
+offset_right = -5.0
+offset_bottom = -19.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_4n6c7")
+
+[node name="kill_feed_holder" type="VBoxContainer" parent="kill_feed_ui"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="button_group" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 148.0
+offset_bottom = 69.0
+theme_override_constants/separation = 15
+
+[node name="hamburger_button" type="TextureButton" parent="button_group"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_uhpp6")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="button_group/hamburger_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("3_ib4yo")
+expand_mode = 1
+
+[node name="leaderboard_button" type="TextureButton" parent="button_group"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_uhpp6")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="button_group/leaderboard_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("4_8lfor")
+expand_mode = 1
+
+[node name="burger_menu" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+offset_left = 5.0
+offset_top = 75.0
+offset_right = 261.0
+offset_bottom = 221.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="burger_menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="leaderboard_button" type="Button" parent="burger_menu/VBoxContainer"]
+layout_mode = 2
+text = "Leaderboard"
+
+[node name="options_button" type="Button" parent="burger_menu/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="leave_server_button" type="Button" parent="burger_menu/VBoxContainer"]
+layout_mode = 2
+text = "Leave Server"
+
+[node name="quit_button" type="Button" parent="burger_menu/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="leaderboard" type="Panel" parent="."]
+layout_mode = 1
+offset_left = -405.0
+offset_top = 74.0
+offset_right = -5.0
+offset_bottom = 404.0
+script = ExtResource("5_305lx")
+slide_curve = SubResource("Curve_1sm11")
+open_position = Vector2(5, 74)
+close_position = Vector2(-405, 74)
+
+[node name="Label" type="Label" parent="leaderboard"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 5.0
+offset_right = -5.0
+offset_bottom = 34.0
+grow_horizontal = 2
+size_flags_vertical = 6
+text = "Scoreboard"
+label_settings = SubResource("LabelSettings_bf5ha")
+vertical_alignment = 1
+
+[node name="close_button" type="TextureButton" parent="leaderboard"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -29.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 29.0
+grow_horizontal = 0
+texture_normal = ExtResource("2_uhpp6")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="leaderboard/close_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_20eo6")
+expand_mode = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="leaderboard"]
+spawn_path = NodePath("../ScrollContainer/leaderboard_entrys_holder")
+
+[node name="header" type="Panel" parent="leaderboard"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 35.0
+offset_right = -5.0
+offset_bottom = 65.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="leaderboard/header"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="leaderboard/header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Username"
+
+[node name="Label2" type="Label" parent="leaderboard/header/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Kills"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="leaderboard/header/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Deaths"
+horizontal_alignment = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="leaderboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 68.0
+offset_right = -5.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="leaderboard_entrys_holder" type="VBoxContainer" parent="leaderboard/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="button_group/leaderboard_button" to="." method="_on_leaderboard_button_pressed"]
+[connection signal="pressed" from="leaderboard/close_button" to="leaderboard" method="_on_close_button_pressed"]

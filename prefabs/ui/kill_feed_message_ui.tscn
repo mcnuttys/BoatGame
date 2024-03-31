@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh61htno82i32"]
+
+[ext_resource type="Script" path="res://scripts/ui/kill_feed_message_ui.gd" id="1_4f21f"]
+
+[sub_resource type="Curve" id="Curve_fgnuk"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="kill_feed_message" type="RichTextLabel"]
+offset_left = 1000.0
+offset_right = 1179.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Unset Killfeed Message"
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("1_4f21f")
+curve = SubResource("Curve_fgnuk")

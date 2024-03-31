@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://b871uke2j3cf0"]
+
+[ext_resource type="Script" path="res://scripts/explosion_effect.gd" id="1_pb54e"]
+[ext_resource type="AudioStream" uid="uid://gfsr74gx3nxu" path="res://audio/explosion_2.ogg" id="2_57jct"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7e5i1"]
+radius = 2.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbikr"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.392157)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ktnwr"]
+material = SubResource("StandardMaterial3D_vbikr")
+radius = 2.5
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g8ywq"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jj2jc"]
+material = SubResource("StandardMaterial3D_g8ywq")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="Curve" id="Curve_ptpmn"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="explosion_effect" type="Area3D"]
+script = ExtResource("1_pb54e")
+
+[node name="damage_area" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_7e5i1")
+
+[node name="display_mesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_ktnwr")
+
+[node name="display_particles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 2
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_jj2jc")
+emission_shape = 1
+emission_sphere_radius = 0.01
+spread = 180.0
+gravity = Vector3(0, 2, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ptpmn")
+
+[node name="explosion_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_57jct")
+volume_db = -30.0
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,489 @@
+[gd_scene load_steps=16 format=3 uid="uid://60pcmc271qir"]
+
+[ext_resource type="Texture2D" uid="uid://bvas1mceeht2r" path="res://textures/controls/wheel.png" id="1_obxxa"]
+[ext_resource type="Script" path="res://scripts/ui/player_controls_ui.gd" id="1_qnl3j"]
+[ext_resource type="Texture2D" uid="uid://mpw4r2t7u2k3" path="res://textures/controls/slider_background.png" id="2_jfrq7"]
+[ext_resource type="Texture2D" uid="uid://c444vgv3r2yww" path="res://textures/rect.png" id="2_r7pwa"]
+[ext_resource type="Texture2D" uid="uid://blg3b05x8tbh0" path="res://textures/controls/slider.png" id="3_vmpea"]
+[ext_resource type="Script" path="res://scripts/ui/health_bar.gd" id="3_xpra3"]
+[ext_resource type="Texture2D" uid="uid://dhli1eejii7aj" path="res://textures/controls/radar_background.png" id="4_xx3y3"]
+[ext_resource type="Texture2D" uid="uid://c7x3kcxbisab4" path="res://textures/controls/radar_forground.png" id="5_v4avh"]
+[ext_resource type="Texture2D" uid="uid://dao3tukoc03xu" path="res://textures/controls/radar_angle.png" id="6_jhx4v"]
+[ext_resource type="Texture2D" uid="uid://bfjyikmb4kprh" path="res://textures/controls/slider_background_half.png" id="7_ctq5t"]
+[ext_resource type="Texture2D" uid="uid://krulr5se05um" path="res://textures/o_high.png" id="9_cepbl"]
+
+[sub_resource type="Gradient" id="Gradient_umacx"]
+colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3mtev"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_hnq6t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_37txl"]
+
+[node name="player_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qnl3j")
+
+[node name="submerged_tint" type="TextureRect" parent="."]
+visible = false
+modulate = Color(0, 0.431373, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_r7pwa")
+expand_mode = 1
+
+[node name="camera_rotate" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="TextureRect" parent="camera_rotate"]
+visible = false
+self_modulate = Color(0.419608, 0.419608, 0.419608, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_r7pwa")
+expand_mode = 1
+
+[node name="handle" type="TextureRect" parent="camera_rotate"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -29.5
+offset_right = 12.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(12, 30)
+texture = ExtResource("6_jhx4v")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="camera_rotate/handle"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -3.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "0°"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ship_data" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -415.0
+offset_top = 15.0
+offset_right = -15.0
+offset_bottom = 143.0
+grow_horizontal = 0
+pivot_offset = Vector2(400, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ship_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="health_bar" type="TextureProgressBar" parent="ship_data/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_under = ExtResource("2_r7pwa")
+texture_progress = ExtResource("2_r7pwa")
+tint_under = Color(0.392157, 0.392157, 0.392157, 1)
+tint_progress = Color(0, 1, 0, 1)
+script = ExtResource("3_xpra3")
+health_gradient = SubResource("Gradient_umacx")
+
+[node name="health_bar_value" type="Label" parent="ship_data/VBoxContainer/health_bar"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_3mtev")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="username_label" type="RichTextLabel" parent="ship_data/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[right]{ PLAYER_USERNAME }"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="steering_wheel" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 96.0
+grow_vertical = 0
+pivot_offset = Vector2(128, 128)
+
+[node name="TextureRect" type="TextureRect" parent="steering_wheel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -187.0
+offset_right = 175.0
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(175, 187)
+texture = ExtResource("1_obxxa")
+expand_mode = 1
+
+[node name="Marker2D" type="Marker2D" parent="steering_wheel"]
+position = Vector2(128, 128)
+gizmo_extents = 200.0
+
+[node name="thrust_slider" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 207.0
+offset_top = -208.0
+offset_right = 407.0
+offset_bottom = -8.0
+grow_vertical = 0
+pivot_offset = Vector2(-175, 200)
+
+[node name="background" type="TextureRect" parent="thrust_slider"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jfrq7")
+expand_mode = 1
+
+[node name="slider" type="TextureRect" parent="thrust_slider"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 160.0
+offset_bottom = 192.0
+grow_horizontal = 2
+texture = ExtResource("3_vmpea")
+expand_mode = 1
+
+[node name="lift_slider" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -278.0
+offset_top = -208.0
+offset_right = -246.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(270, 200)
+
+[node name="slider_background" type="TextureRect" parent="lift_slider"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_ctq5t")
+expand_mode = 1
+
+[node name="slider" type="TextureRect" parent="lift_slider"]
+layout_mode = 0
+offset_left = -14.0
+offset_top = 192.0
+offset_right = 10.0
+offset_bottom = 252.0
+rotation = -1.5708
+texture = ExtResource("6_jhx4v")
+expand_mode = 1
+
+[node name="lift_slider_2" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -321.0
+offset_top = -321.0
+offset_right = 55.0
+offset_bottom = 55.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(320, 320)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="lift_slider_2"]
+self_modulate = Color(0.415686, 0.415686, 0.415686, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -168.0
+offset_top = -168.0
+offset_right = 168.0
+offset_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(168, 168)
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("9_cepbl")
+radial_initial_angle = 225.0
+radial_fill_degrees = 90.0
+
+[node name="slider_pivot" type="Control" parent="lift_slider_2"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 376.0
+offset_bottom = 376.0
+rotation = 3.14159
+pivot_offset = Vector2(188, 188)
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="lift_slider_2/slider_pivot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 146.0
+offset_top = -30.0
+offset_right = 170.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(12, 30)
+texture = ExtResource("6_jhx4v")
+expand_mode = 1
+
+[node name="radar" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -261.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(256, 256)
+
+[node name="pivot" type="Control" parent="radar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(128, 128)
+
+[node name="radar_mask" type="TextureRect" parent="radar"]
+self_modulate = Color(0, 0, 0, 1)
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_xx3y3")
+expand_mode = 1
+
+[node name="radar_texture" type="TextureRect" parent="radar/radar_mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_hnq6t")
+expand_mode = 1
+
+[node name="radar_forground" type="TextureRect" parent="radar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_v4avh")
+expand_mode = 1
+
+[node name="dial_pivot" type="Control" parent="radar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 128.0
+offset_top = 128.0
+offset_right = -128.0
+offset_bottom = -128.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00893727
+
+[node name="dial_marker" type="TextureRect" parent="radar/dial_pivot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.6768
+offset_top = -148.11
+offset_right = 12.3232
+offset_bottom = -88.1103
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_jhx4v")
+expand_mode = 1
+
+[node name="fire_button" type="TextureButton" parent="."]
+self_modulate = Color(0.392157, 0.392157, 0.392157, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = -336.0
+offset_right = -7.0
+offset_bottom = -256.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(80, 80)
+texture_normal = ExtResource("4_xx3y3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="progress_bar" type="TextureProgressBar" parent="fire_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("4_xx3y3")
+tint_progress = Color(1, 0, 0, 1)
+
+[node name="Label" type="Label" parent="fire_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -27.5
+offset_right = 40.5
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "FIRE"
+label_settings = SubResource("LabelSettings_37txl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEBUG_LABEL" type="Label" parent="."]
+visible = false
+custom_minimum_size = Vector2(1024, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+pivot_offset = Vector2(512, 0)
+text = "DEBUG_ LABEL"
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[connection signal="gui_input" from="camera_rotate" to="." method="_on_camera_rotate_slider_gui_input"]
+[connection signal="gui_input" from="steering_wheel" to="." method="_on_steering_wheel_gui_input"]
+[connection signal="gui_input" from="thrust_slider" to="." method="_on_drive_slider_gui_input"]
+[connection signal="gui_input" from="lift_slider" to="." method="_on_lift_slider_gui_input"]
+[connection signal="gui_input" from="lift_slider_2" to="." method="_on_lift_slider_2_gui_input"]
+[connection signal="gui_input" from="radar" to="." method="_on_radar_gui_input"]
+[connection signal="gui_input" from="fire_button" to="." method="_on_fire_button_gui_input"]

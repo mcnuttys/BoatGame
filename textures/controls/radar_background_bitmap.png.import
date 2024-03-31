@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://daq5fpajpeh50"
+path="res://.godot/imported/radar_background_bitmap.png-ee40c08b6d291fe755010ed86ecd511a.res"
+
+[deps]
+
+source_file="res://textures/controls/radar_background_bitmap.png"
+dest_files=["res://.godot/imported/radar_background_bitmap.png-ee40c08b6d291fe755010ed86ecd511a.res"]
+
+[params]
+
+create_from=0
+threshold=0.2

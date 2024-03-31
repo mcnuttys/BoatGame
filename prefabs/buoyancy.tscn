@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://7hq5ljtfxwoc"]
+
+[ext_resource type="Script" path="res://scripts/buoyancy/buoyancy.gd" id="1_0neqe"]
+[ext_resource type="Script" path="res://scripts/buoyancy/buoyancy_probe.gd" id="2_2mwg2"]
+
+[node name="Buoyancy" type="Node3D"]
+script = ExtResource("1_0neqe")
+
+[node name="BuoyancyProbe" type="Marker3D" parent="."]
+script = ExtResource("2_2mwg2")

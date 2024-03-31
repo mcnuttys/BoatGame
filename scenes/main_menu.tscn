@@ -1,0 +1,365 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwfekdmxbkw78"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_hrvou"]
+[ext_resource type="PackedScene" uid="uid://brmxc0g2oha12" path="res://prefabs/default_ship.tscn" id="2_fdcbk"]
+[ext_resource type="Script" path="res://scripts/ui/main_menu_ui.gd" id="2_pbkjw"]
+[ext_resource type="Script" path="res://scripts/ui/multiplayer_menu_ui.gd" id="4_vjgxq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_18mid"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_v5iwr"]
+sky_material = SubResource("ProceduralSkyMaterial_18mid")
+
+[sub_resource type="Environment" id="Environment_cbmdv"]
+background_mode = 2
+sky = SubResource("Sky_v5iwr")
+tonemap_mode = 2
+glow_enabled = true
+fog_light_energy = 1.63
+volumetric_fog_density = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqhtn"]
+transparency = 1
+albedo_color = Color(0, 0.360784, 1, 0.392157)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6xfrd"]
+material = SubResource("StandardMaterial3D_tqhtn")
+size = Vector2(25, 25)
+
+[node name="main_menu" type="Node3D"]
+script = ExtResource("1_hrvou")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cbmdv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4)
+cull_mask = 1048571
+
+[node name="Water" type="MeshInstance3D" parent="."]
+layers = 2
+mesh = SubResource("PlaneMesh_6xfrd")
+
+[node name="Ship" parent="." instance=ExtResource("2_fdcbk")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1, -0.1, 0)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Main_Menu_UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_pbkjw")
+
+[node name="Main_Menu" type="VBoxContainer" parent="Main_Menu_UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -64.0
+offset_right = 128.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Main_Menu"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Boat Game"
+horizontal_alignment = 1
+
+[node name="JoinMenu_Button" type="Button" parent="Main_Menu_UI/Main_Menu"]
+layout_mode = 2
+text = "Join Game"
+
+[node name="HostMenu_Button" type="Button" parent="Main_Menu_UI/Main_Menu"]
+layout_mode = 2
+text = "Host Game"
+
+[node name="Quit_Button" type="Button" parent="Main_Menu_UI/Main_Menu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Join_Menu" type="VBoxContainer" parent="Main_Menu_UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -70.0
+offset_right = 128.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Join_Menu"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Join Game"
+horizontal_alignment = 1
+
+[node name="IP_HBox" type="HBoxContainer" parent="Main_Menu_UI/Join_Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Join_Menu/IP_HBox"]
+custom_minimum_size = Vector2(0, 37)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP: "
+vertical_alignment = 1
+
+[node name="TextEdit" type="LineEdit" parent="Main_Menu_UI/Join_Menu/IP_HBox"]
+custom_minimum_size = Vector2(214, 0)
+layout_mode = 2
+text = "45.46.94.165"
+placeholder_text = "127.0.0.1"
+deselect_on_focus_loss_enabled = false
+
+[node name="Port_HBox" type="HBoxContainer" parent="Main_Menu_UI/Join_Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Join_Menu/Port_HBox"]
+custom_minimum_size = Vector2(0, 37)
+layout_mode = 2
+text = "Port:"
+vertical_alignment = 1
+
+[node name="TextEdit" type="LineEdit" parent="Main_Menu_UI/Join_Menu/Port_HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7777"
+placeholder_text = "7777"
+deselect_on_focus_loss_enabled = false
+
+[node name="Join_Button" type="Button" parent="Main_Menu_UI/Join_Menu"]
+layout_mode = 2
+text = "Join"
+
+[node name="Back_Button" type="Button" parent="Main_Menu_UI/Join_Menu"]
+layout_mode = 2
+text = "Back"
+
+[node name="Host_Menu" type="VBoxContainer" parent="Main_Menu_UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -49.5
+offset_right = 128.0
+offset_bottom = 49.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Host_Menu"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+text = "Join Game"
+horizontal_alignment = 1
+
+[node name="Port_HBox" type="HBoxContainer" parent="Main_Menu_UI/Host_Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Host_Menu/Port_HBox"]
+custom_minimum_size = Vector2(0, 37)
+layout_mode = 2
+text = "Port:"
+vertical_alignment = 1
+
+[node name="TextEdit" type="LineEdit" parent="Main_Menu_UI/Host_Menu/Port_HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7777"
+placeholder_text = "7777"
+deselect_on_focus_loss_enabled = false
+
+[node name="Host_Button" type="Button" parent="Main_Menu_UI/Host_Menu"]
+layout_mode = 2
+text = "Host"
+
+[node name="Back_Button" type="Button" parent="Main_Menu_UI/Host_Menu"]
+layout_mode = 2
+text = "Back"
+
+[node name="Multiplayer_Menu" type="HBoxContainer" parent="Main_Menu_UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -256.0
+offset_right = 512.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_vjgxq")
+
+[node name="GameInfo_panel" type="Panel" parent="Main_Menu_UI/Multiplayer_Menu"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/VBoxContainer"]
+layout_mode = 2
+text = "Game Info"
+
+[node name="Label2" type="Label" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/VBoxContainer"]
+layout_mode = 2
+text = "Server Name: \"Default Name\""
+
+[node name="Label3" type="Label" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/VBoxContainer"]
+layout_mode = 2
+text = "Local IP: 127.0.0.1"
+
+[node name="Label4" type="Label" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/VBoxContainer"]
+layout_mode = 2
+text = "Port: 7777"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -36.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Leave" type="Button" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Leave Server"
+
+[node name="Start" type="Button" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Start Game"
+
+[node name="Join" type="Button" parent="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join Game"
+
+[node name="PlayerList_panel" type="Panel" parent="Main_Menu_UI/Multiplayer_Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Main_Menu_UI/Multiplayer_Menu/PlayerList_panel"]
+layout_mode = 1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 62.0
+offset_bottom = 28.0
+text = "Players"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main_Menu_UI/Multiplayer_Menu/PlayerList_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="PlayerList_holder" type="VBoxContainer" parent="Main_Menu_UI/Multiplayer_Menu/PlayerList_panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConnectionFailed_Menu" type="VBoxContainer" parent="Main_Menu_UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.5
+offset_top = -29.0
+offset_right = 72.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/ConnectionFailed_Menu"]
+layout_mode = 2
+text = "Failed to connect..."
+
+[node name="back_button" type="Button" parent="Main_Menu_UI/ConnectionFailed_Menu"]
+layout_mode = 2
+text = "Back"
+
+[node name="HostFailed_Menu" type="VBoxContainer" parent="Main_Menu_UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.5
+offset_top = -29.0
+offset_right = 72.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main_Menu_UI/HostFailed_Menu"]
+layout_mode = 2
+text = "Failed to host..."
+
+[node name="back_button" type="Button" parent="Main_Menu_UI/HostFailed_Menu"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="Main_Menu_UI/Main_Menu/JoinMenu_Button" to="Main_Menu_UI" method="_on_join_menu_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Main_Menu/HostMenu_Button" to="Main_Menu_UI" method="_on_host_menu_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Main_Menu/Quit_Button" to="Main_Menu_UI" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Join_Menu/Join_Button" to="Main_Menu_UI" method="_on_join_multiplayer_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Join_Menu/Back_Button" to="Main_Menu_UI" method="_on_back_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Host_Menu/Host_Button" to="Main_Menu_UI" method="_on_host_multiplayer_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Host_Menu/Back_Button" to="Main_Menu_UI" method="_on_back_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer/Leave" to="Main_Menu_UI" method="_on_leave_multiplayer_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer/Start" to="Main_Menu_UI" method="_on_start_game_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/Multiplayer_Menu/GameInfo_panel/HBoxContainer/Join" to="Main_Menu_UI" method="_on_join_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/ConnectionFailed_Menu/back_button" to="Main_Menu_UI" method="_on_back_button_pressed"]
+[connection signal="pressed" from="Main_Menu_UI/HostFailed_Menu/back_button" to="Main_Menu_UI" method="_on_back_button_pressed"]

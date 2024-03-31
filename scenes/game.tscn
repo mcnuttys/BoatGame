@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://glcaqhc40iir"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_sagqo"]
+[ext_resource type="PackedScene" uid="uid://cwfekdmxbkw78" path="res://scenes/main_menu.tscn" id="1_v2bjy"]
+
+[node name="game" type="Node3D"]
+script = ExtResource("1_sagqo")
+
+[node name="level" type="Node3D" parent="."]
+
+[node name="level_spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/test_game_scene.tscn")
+spawn_path = NodePath("../level")
+
+[node name="main_menu" parent="." instance=ExtResource("1_v2bjy")]

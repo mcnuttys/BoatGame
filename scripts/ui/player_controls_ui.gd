@@ -59,7 +59,7 @@ func _ready():
 	scale_ui()
 
 func _process(delta):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		check_player_input(delta)
 	
 	fire_button_progress.value = (1.0 - fire_timeout) * 100.0
@@ -127,7 +127,7 @@ func rotate_wheel_angle(angle):
 		steering_wheel.rotation = angle
 
 func _on_steering_wheel_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			wheel_rotate = event.is_pressed()
 			last_wheel_angle = calculate_angle(event.position, steering_wheel_pivot.pivot_offset)
@@ -138,7 +138,7 @@ func _on_steering_wheel_gui_input(event):
 		if event is InputEventMouseMotion and wheel_rotate:
 			rotate_wheel(event.position)
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			wheel_rotate = event.is_pressed()
 			last_wheel_angle = calculate_angle(event.position, steering_wheel_pivot.pivot_offset)
@@ -159,7 +159,7 @@ func change_drive_slider(_position_y):
 	drive_slider_handle.position.y = drive_value
 
 func _on_drive_slider_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			changing_drive = event.is_pressed()
 			
@@ -169,7 +169,7 @@ func _on_drive_slider_gui_input(event):
 		if event is InputEventMouseMotion and changing_drive:
 			change_drive_slider(event.position.y)
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			changing_drive = event.is_pressed()
 			
@@ -196,7 +196,7 @@ func rotate_radar_angle(angle):
 	radar_handle_pivot.rotation = radar_angle
 
 func _on_radar_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			radar_rotate = event.is_pressed()
 			rotate_radar(event.position)
@@ -204,7 +204,7 @@ func _on_radar_gui_input(event):
 		if event is InputEventMouseMotion and radar_rotate:
 			rotate_radar(event.position)
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			radar_rotate = event.is_pressed()
 			rotate_radar(event.position)
@@ -243,14 +243,14 @@ func rotate_lift_slider_valie(value):
 	change_lift_slider_signal.emit(1 - lift_value)
 
 func _on_lift_slider_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			changing_lift = event.is_pressed()
 	
 		if event is InputEventMouseMotion and changing_lift:
 			change_lift_slider(event.position)
 			
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			changing_lift = event.is_pressed()
 	
@@ -259,14 +259,14 @@ func _on_lift_slider_gui_input(event):
 			debug_label.text = event
 
 func _on_lift_slider_2_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			changing_lift = event.is_pressed()
 		
 		if event is InputEventMouseMotion and changing_lift:
 			rotate_lift_slider(event.position)
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			changing_lift = event.is_pressed()
 	
@@ -275,11 +275,11 @@ func _on_lift_slider_2_gui_input(event):
 			debug_label.text = event
 
 func _on_fire_button_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MASK_LEFT:
 			press_fire_button_signal.emit(event.is_pressed())
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			press_fire_button_signal.emit(event.is_pressed())
 
@@ -287,7 +287,7 @@ func set_health(health):
 	health_bar.set_health(health)
 
 func _on_camera_rotate_slider_gui_input(event):
-	if OS.has_feature("windows"):
+	if OS.has_feature("windows") or OS.has_feature("macos"):
 		if event is InputEventMouseButton:
 			rotating_camera = event.is_pressed()
 			
@@ -306,7 +306,7 @@ func _on_camera_rotate_slider_gui_input(event):
 			
 			rotate_camera_signal.emit(camera_rotation)
 	
-	if OS.has_feature("android"):
+	if OS.has_feature("android") or OS.has_feature("ios"):
 		if event is InputEventScreenTouch:
 			rotating_camera = event.is_pressed()
 			
